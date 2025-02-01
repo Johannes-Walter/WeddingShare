@@ -162,3 +162,9 @@ tr td i {
             font-style: italic;
             margin-top: 15px;
         }
+
+.fa-buymeacoffee {
+    width: 13px;
+    height: 13px;
+    margin: -3px 4px 0px;
+}

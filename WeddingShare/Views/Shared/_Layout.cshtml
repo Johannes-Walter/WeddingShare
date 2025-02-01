@@ -188,13 +188,13 @@
                     <span class="float-none">
                         <a class="text-link text-light" href="https://github.com/Cirx08/WeddingShare" title="Copyright Cirx08" target="_blank"><i class="fa-brands fa-github"></i> WeddingShare v@_config.GetOrDefault("Release:Version", "1.0.0") &copy; Copyright Cirx08 @DateTime.UtcNow.Year</a>
                     </span>
-
-                    @if (string.Equals("/images/logo.png", _config.GetOrDefault("Settings:Logo", "/images/logo.png"), StringComparison.OrdinalIgnoreCase))
-                    {
-                        <span class="float-end">
+                    <span class="float-end">
+                        @if (string.Equals("/images/logo.png", _config.GetOrDefault("Settings:Logo", "/images/logo.png"), StringComparison.OrdinalIgnoreCase))
+                        {
                             <a class="text-link text-light" href="https://www.flaticon.com/free-icon/wedding-couple_703213" title="bride icons" target="_blank">Freepik - Flaticon</a>
-                        </span>
-                    }
+                        }
+                        <a class="text-link text-light" href="https://buymeacoffee.com/cirx08" title="BuyMeACoffee" target="_blank"><img class="fa-brands fa-buymeacoffee" src="./images//buymeacoffee.gif"/></a>
+                    </span>
                 </p>
             </div>
         </footer>
