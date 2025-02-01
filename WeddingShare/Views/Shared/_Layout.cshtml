@@ -174,7 +174,7 @@
         <partial name="~/Views/Shared/_Modals.cshtml" model="null" />
         <partial name="~/Views/Shared/_2FA.cshtml" model="null" />
 
-        @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
+        @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && _config.GetOrDefault("Settings:Identity_Check:Show_On_Page_Load", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
         {
             <script>
                 displayIdentityCheck(false);
