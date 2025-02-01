@@ -2,6 +2,12 @@
     document.addEventListener('DOMContentLoaded', function () {
 
         const triggerSelector = event => {
+            const identityReqiured = $('#frmFileUpload').attr('data-identity-required') == 'true';
+            if (identityReqiured) {
+                displayIdentityCheck(true);
+                return;
+            }
+
             const zone = event.target.closest('.upload_drop') || false;
             const input = zone.querySelector('input[type="file"]') || false;
             input.click();
@@ -74,6 +80,11 @@
 
         // Based on: https://flaviocopes.com/how-to-upload-files-fetch/
         const imageUpload = async dataRefs => {
+            const identityReqiured = $('#frmFileUpload').attr('data-identity-required') == 'true';
+            if (identityReqiured) {
+                displayIdentityCheck(true);
+                return;
+            }
 
             // Multiple source routes, so double check validity
             if (!dataRefs.files || !dataRefs.input) {

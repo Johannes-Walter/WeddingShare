@@ -182,7 +182,7 @@ namespace WeddingShare.Controllers
 
                     if (uploadActvated)
                     { 
-                        fileUploader = new FileUploader(gallery?.Name ?? "default", secretKey, "/Gallery/UploadImage");
+                        fileUploader = new FileUploader(gallery?.Name ?? "default", secretKey, "/Gallery/UploadImage", _config.GetOrDefault("Settings:Require_Identity_For_Upload", false));
                     }
                 }
 

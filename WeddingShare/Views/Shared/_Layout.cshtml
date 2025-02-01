@@ -177,7 +177,7 @@
         @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
         {
             <script>
-                displayIdentityCheck();
+                displayIdentityCheck(false);
             </script>
         }
 

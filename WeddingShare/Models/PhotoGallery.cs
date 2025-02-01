@@ -10,18 +10,18 @@ namespace WeddingShare.Models
         }
 
         public PhotoGallery(ViewMode viewMode)
-            : this(1, "default", string.Empty, viewMode, new List<PhotoGalleryImage>())
+            : this(1, "default", string.Empty, viewMode, new List<PhotoGalleryImage>(), false)
         {
         }
 
-        public PhotoGallery(int id, string name, string secretKey, ViewMode viewMode, List<PhotoGalleryImage> images)
+        public PhotoGallery(int id, string name, string secretKey, ViewMode viewMode, List<PhotoGalleryImage> images, bool requireIdentity)
         {
             this.GalleryId = id;
             this.GalleryName = name;
             this.ViewMode = viewMode;
             this.PendingCount = 0;
             this.Images = images;
-            this.FileUploader = new FileUploader(name, secretKey, "/Gallery/UploadImage");
+            this.FileUploader = new FileUploader(name, secretKey, "/Gallery/UploadImage", requireIdentity);
         }
 
         public int? GalleryId { get; set; }

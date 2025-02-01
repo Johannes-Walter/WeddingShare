@@ -70,43 +70,38 @@ function displayMessage(title, message, errors) {
     $('#alert-message-modal').modal('show');
 }
 
-function displayIdentityCheck() {
-    displayPopup({
-        Title: localization.translate('Identity_Check'),
-        Fields: [{
-            Id: 'identity-name',
-            Name: localization.translate('Identity_Check_Name'),
-            Value: '',
-            Hint: localization.translate('Identity_Check_Hint'),
-            Placeholder: localization.translate('Identity_Check_Placeholder')
-        }],
-        Buttons: [{
-            Text: localization.translate('Identity_Check_Tell_Us'),
-            Class: 'btn-success',
-            Callback: function () {
-                let name = $('#popup-modal-field-identity-name').val().trim();
-                if (name !== undefined && name.length > 0) {
-                    const regex = /^[a-zA-Z-\s\-\']+$/;
-                    if (regex.test(name)) {
-                        $.ajax({
-                            url: '/Home/SetIdentity',
-                            method: 'POST',
-                            data: { name }
+function displayIdentityCheck(required) {
+    let buttons = [{
+        Text: localization.translate('Identity_Check_Tell_Us'),
+        Class: 'btn-success',
+        Callback: function () {
+            let name = $('#popup-modal-field-identity-name').val().trim();
+            if (name !== undefined && name.length > 0) {
+                const regex = /^[a-zA-Z-\s\-\']+$/;
+                if (regex.test(name)) {
+                    $.ajax({
+                        url: '/Home/SetIdentity',
+                        method: 'POST',
+                        data: { name }
+                    })
+                        .done(data => {
+                            $('#frmFileUpload').attr('data-identity-required', 'false');
+                            window.location.reload();
                         })
-                            .done(data => {
-                                window.location.reload();
-                            })
-                            .fail((xhr, error) => {
-                                displayMessage(localization.translate('Identity_Check'), localization.translate('Identity_Check_Set_Failed'), [error]);
-                            });
-                    } else {
-                        displayMessage(localization.translate('Identity_Check_Invalid_Name'), localization.translate('Identity_Check_Invalid_Name_Msg'));
-                    }
+                        .fail((xhr, error) => {
+                            displayMessage(localization.translate('Identity_Check'), localization.translate('Identity_Check_Set_Failed'), [error]);
+                        });
                 } else {
                     displayMessage(localization.translate('Identity_Check_Invalid_Name'), localization.translate('Identity_Check_Invalid_Name_Msg'));
                 }
+            } else {
+                displayMessage(localization.translate('Identity_Check_Invalid_Name'), localization.translate('Identity_Check_Invalid_Name_Msg'));
             }
-        }, {
+        }
+    }];
+
+    if (!required) {
+        buttons.push({
             Text: localization.translate('Identity_Check_Stay_Anonymous'),
             Callback: function () {
                 $.ajax({
@@ -121,7 +116,19 @@ function displayIdentityCheck() {
                         displayMessage(localization.translate('Identity_Check'), localization.translate('Identity_Check_Set_Failed'), [error]);
                     });
             }
-        }]
+        });
+    }
+
+    displayPopup({
+        Title: localization.translate('Identity_Check'),
+        Fields: [{
+            Id: 'identity-name',
+            Name: localization.translate('Identity_Check_Name'),
+            Value: '',
+            Hint: localization.translate('Identity_Check_Hint'),
+            Placeholder: localization.translate('Identity_Check_Placeholder')
+        }],
+        Buttons: buttons
     });
 }
 

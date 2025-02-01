@@ -8,7 +8,7 @@
 
 <header class="file-uploader bg-dark py-1 py-lg-4">
     <div class="container px-0 px-lg-2">
-        <form id="frmFileUpload">
+        <form id="frmFileUpload" data-identity-required="@(((Model?.IdentityRequired ?? false) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity))).ToString().ToLower())">
             @Html.AntiForgeryToken()
 
             <fieldset class="upload_drop text-center p-4 text-center text-white">
