@@ -29,27 +29,29 @@ Not all image formats are supported in browsers so although you may be able to a
 Not all image formats are supported in browsers so although you may be able to add them via the `ALLOWED_FILE_TYPES` environment variable they may not be supported. One such format is Apples `.heic` format. It is specific to Apple devices and due to its licensing, a lot of browsers have not implemented it.
 :::
 
-| Name                               | Value                                        |
-| ---------------------------------- | -------------------------------------------- |
-| TITLE                              | WeddingShare                                 |
-| LOGO                               | https://someurl/someimage.png                |
-| BASE_URL                           | www.wedding-share.com                        |
-| LANGUAGE                           | en-GB                                        |
-| FORCE_HTTPS                        | false                                        |
-| DEFAULT_THEME                      | default (default, dark)                      |
-| LINKS_OPEN_NEW_TAB                 | true                                         |
-| SHOW_IDENTITY_REQUEST              | true                                         |
-| DISABLE_HOME_LINK                  | false                                        |
-| DISABLE_DARK_MODE                  | false                                        |
-| DISABLE_GUEST_GALLERY_CREATION     | true                                         |
-| SINGLE_GALLERY_MODE                | false                                        |
-| DEFAULT_GALLERY_VIEW               | 0 (Default), 1 (Presentation), 2 (Slideshow) |
-| ALLOWED_FILE_TYPES                 | .jpg,.jpeg,.png,.mp4,.mov                    |
-| MAX_FILE_SIZE_MB                   | 10                                           |
-| THUMBNAIL_SIZE                     | 720                                          |
-| HIDE_KEY_FROM_QR_CODE              | false                                        |
-| IDLE_GALLERY_REFRESH_MINS          | 5 (0 = disable)                              |
-| EMAIL_REPORT                       | true                                         |
+| Name                                       | Value                                        |
+| ------------------------------------------ | -------------------------------------------- |
+| TITLE                                      | WeddingShare                                 |
+| LOGO                                       | https://someurl/someimage.png                |
+| BASE_URL                                   | www.wedding-share.com                        |
+| LANGUAGE                                   | en-GB                                        |
+| FORCE_HTTPS                                | false                                        |
+| DEFAULT_THEME                              | default (default, dark)                      |
+| LINKS_OPEN_NEW_TAB                         | true                                         |
+| SHOW_IDENTITY_REQUEST                      | true                                         |
+| IDENTITY_CHECK_SHOW_ON_PAGE_LOAD           | true                                         |
+| IDENTITY_CHECK_REQUIRE_IDENTITY_FOR_UPLOAD | false                                        |
+| DISABLE_HOME_LINK                          | false                                        |
+| DISABLE_DARK_MODE                          | false                                        |
+| DISABLE_GUEST_GALLERY_CREATION             | true                                         |
+| SINGLE_GALLERY_MODE                        | false                                        |
+| DEFAULT_GALLERY_VIEW                       | 0 (Default), 1 (Presentation), 2 (Slideshow) |
+| ALLOWED_FILE_TYPES                         | .jpg,.jpeg,.png,.mp4,.mov                    |
+| MAX_FILE_SIZE_MB                           | 10                                           |
+| THUMBNAIL_SIZE                             | 720                                          |
+| HIDE_KEY_FROM_QR_CODE                      | false                                        |
+| IDLE_GALLERY_REFRESH_MINS                  | 5 (0 = disable)                              |
+| EMAIL_REPORT                               | true                                         |
 
 ### Gallery Overrides
 
