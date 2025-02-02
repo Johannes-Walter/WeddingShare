@@ -77,16 +77,24 @@ namespace WeddingShare.Helpers
         {
             try
             {
-                var value = this.GetEnvironmentVariable(key);
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    return value;
+                var alertnateKeys = GetAlternateKeys(key);
+
+                foreach (var alertnateKey in alertnateKeys)
+                { 
+                    var value = this.GetEnvironmentVariable(alertnateKey);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        return value;
+                    }
                 }
 
-                value = this.GetConfigValue(key);
-                if (!string.IsNullOrWhiteSpace(value))
+                foreach (var alertnateKey in alertnateKeys)
                 {
-                    return value;
+                    var value = this.GetConfigValue(alertnateKey);
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        return value;
+                    }
                 }
             }
             catch (Exception ex)
@@ -211,6 +219,29 @@ namespace WeddingShare.Helpers
                 default:
                     return false;
             }
+        }
+
+        private List<string> GetAlternateKeys(string key)
+        {
+            var keys = new List<string>();
+
+            try
+            {
+                key = key.Trim();
+                keys.Add(key);
+
+                if (string.Equals(key, "Settings:Identity_Check:Enabled", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add("Settings:Show_Identity_Request");
+                }
+                else if (string.Equals(key, "Settings:Show_Identity_Request", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add("Settings:Identity_Check:Enabled");
+                }
+            }
+            catch { }
+                
+            return keys.Distinct().ToList();
         }
     }
 }

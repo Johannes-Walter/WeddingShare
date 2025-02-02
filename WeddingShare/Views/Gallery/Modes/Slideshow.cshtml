@@ -8,7 +8,7 @@
     var slideshowInterval = TimeSpan.FromSeconds(_config.GetOrDefault("Settings:Slideshow:Interval", 10)).TotalMilliseconds;
     var slideshowFade = _config.GetOrDefault("Settings:Slideshow:Fade", 500);
     var slideLimit = _config.GetOrDefault("Settings:Slideshow:Limit", int.MaxValue);
-    var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
+    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
 
     if (Model?.Images != null)
     {

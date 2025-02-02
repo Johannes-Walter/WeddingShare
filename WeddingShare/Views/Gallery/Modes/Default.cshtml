@@ -7,7 +7,7 @@
 
 @{
     var columnCount = _gallery.GetConfig(Model?.GalleryName, "Gallery_Columns", 4);
-    var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
+    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
 
     try
     {

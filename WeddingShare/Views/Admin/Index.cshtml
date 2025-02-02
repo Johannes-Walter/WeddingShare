@@ -8,7 +8,7 @@
 @inject WeddingShare.Helpers.IUrlHelper _url
 
 @{
-    var identityEnabled = _config.GetOrDefault("Settings:Show_Identity_Request", true);
+    var identityEnabled = _config.GetOrDefault("Settings:Identity_Check:Enabled", true);
 }
 
 <section class="py-1 pt-lg-5">

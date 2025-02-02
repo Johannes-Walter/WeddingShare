@@ -92,7 +92,7 @@
                             {
                                 <i class="change-theme fa-solid @(string.Equals("default", theme, StringComparison.OrdinalIgnoreCase) ? "fa-moon" : "fa-sun") fa-1x text-secondary pointer mx-2"></i>
                             }
-                            @if (_config.GetOrDefault("Settings:Show_Identity_Request", true))
+                            @if (_config.GetOrDefault("Settings:Identity_Check:Enabled", true))
                             {
                                 <i class="change-identity fa-solid fa-id-card fa-1x text-secondary pointer mx-2" data-identity="@Context?.Session.GetString(SessionKey.ViewerIdentity)"></i>
                             }
@@ -174,7 +174,7 @@
         <partial name="~/Views/Shared/_Modals.cshtml" model="null" />
         <partial name="~/Views/Shared/_2FA.cshtml" model="null" />
 
-        @if (_config.GetOrDefault("Settings:Show_Identity_Request", true) && _config.GetOrDefault("Settings:Identity_Check:Show_On_Page_Load", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
+        @if (_config.GetOrDefault("Settings:Identity_Check:Enabled", true) && _config.GetOrDefault("Settings:Identity_Check:Show_On_Page_Load", true) && string.IsNullOrWhiteSpace(Context?.Session?.GetString(SessionKey.ViewerIdentity)))
         {
             <script>
                 displayIdentityCheck(false);
