@@ -38,9 +38,6 @@ Not all image formats are supported in browsers so although you may be able to a
 | FORCE_HTTPS                                | false                                        |
 | DEFAULT_THEME                              | default (default, dark)                      |
 | LINKS_OPEN_NEW_TAB                         | true                                         |
-| SHOW_IDENTITY_REQUEST                      | true                                         |
-| IDENTITY_CHECK_SHOW_ON_PAGE_LOAD           | true                                         |
-| IDENTITY_CHECK_REQUIRE_IDENTITY_FOR_UPLOAD | false                                        |
 | DISABLE_HOME_LINK                          | false                                        |
 | DISABLE_DARK_MODE                          | false                                        |
 | DISABLE_GUEST_GALLERY_CREATION             | true                                         |
@@ -87,6 +84,14 @@ Any setting marked **Yes** in the table below can have a gallery specific overri
 | ACCOUNT_SHOW_PROFILE_ICON      | true                                         |
 | ACCOUNT_LOCKOUT_ATTEMPTS       | 5                                            |
 | ACCOUNT_LOCKOUT_MINS           | 60                                           |
+
+# Identity Check
+
+| Name                                       | Value                                        |
+| ------------------------------------------ | -------------------------------------------- |
+| IDENTITY_CHECK_ENABLED                     | true                                         |
+| IDENTITY_CHECK_SHOW_ON_PAGE_LOAD           | true                                         |
+| IDENTITY_CHECK_REQUIRE_IDENTITY_FOR_UPLOAD | false                                        |
 
 # Slideshow
 
