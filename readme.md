@@ -66,10 +66,10 @@ Any setting marked **Yes** in the table below can have a gallery specific overri
 | GALLERY_COLUMNS                    | 4 (1, 2, 3, 4, 6, 12)                        |
 | GALLERY_ITEMS_PER_PAGE             | 50                                           |
 | GALLERY_QUOTE                      | (optional)                                   |
+| GALLERY_ENABLE_QR_CODE             | false                                        |
 | DISABLE_REVIEW_COUNTER             | false                                        |
 | DISABLE_UPLOAD                     | false                                        |
 | DISABLE_DOWNLOAD                   | false                                        |
-| DISABLE_QR_CODE                    | false                                        |
 | FULL_WIDTH_GALLERY                 | false                                        |
 | RETAIN_REJECTED_ITEMS              | false                                        |
 | MAX_GALLERY_SIZE_MB                | 1024                                         |
