@@ -1,26 +1,46 @@
-﻿using WeddingShare.Extensions;
+﻿using WeddingShare.Models.Migrator;
 
 namespace WeddingShare.Helpers.Migrators
 {
     public class KeyHelper
     {
-        public static string[] GetAlternateVersions(string key)
+        public static List<KeyMigrator> GetAlternateVersions(string key)
         {
-            if (!string.IsNullOrWhiteSpace(key))
-            {
-                key = key.ToUpper();
+            var keys = new List<KeyMigrator>();
 
-                if (key.StartsWith("SETTINGS:ACCOUNT:ADMIN:", StringComparison.OrdinalIgnoreCase))
+            try
+            {
+                key = key.Trim();
+                keys.Add(new KeyMigrator(key));
+
+                if (string.Equals(key, "Settings:Gallery:Enable_QR_Code", StringComparison.OrdinalIgnoreCase))
                 {
-                    return [key, key.Replace("SETTINGS:ACCOUNT:ADMIN:", "SETTINGS:ADMIN:")];
+                    keys.Add(new KeyMigrator("Settings:Disable_QR_Code", (v) => { return (bool.Parse(v) == false).ToString(); }));
                 }
+                else if (string.Equals(key, "Settings:Identity_Check:Enabled", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add(new KeyMigrator("Settings:Show_Identity_Request"));
+                }
+                else if (string.Equals(key, "Settings:Show_Identity_Request", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add(new KeyMigrator("Settings:Identity_Check:Enabled", (v) => { return (bool.Parse(v) == false).ToString(); }));
+                }
+                else if (string.Equals(key, "Settings:Account:Admins:Username", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add(new KeyMigrator("Settings:Admin:Username"));
+                }
+                else if (string.Equals(key, "Settings:Account:Admins:Password", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add(new KeyMigrator("Settings:Admin:Password"));
+                }
+                else if (string.Equals(key, "Settings:Account:Admins:Log_Password", StringComparison.OrdinalIgnoreCase))
+                {
+                    keys.Add(new KeyMigrator("Settings:Admin:Log_Password"));
+                }
+            }
+            catch { }
 
-                return [key];
-            }
-            else 
-            {
-                throw new ArgumentNullException("Key cannot be null or empty");
-            }
+            return keys.Distinct().ToList();
         }
     }
 }

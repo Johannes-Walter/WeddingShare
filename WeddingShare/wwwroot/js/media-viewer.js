@@ -1,6 +1,5 @@
-let mediaViewerTimeout = null;
-let mediaViewerPositionTimeout = null;
 let playButtonTimeout = null;
+let resizePopupTimeout = null;
 
 function openMediaViewer(e) {
     let thumbnail = $($(e).find('img')[0]).attr('src');
@@ -18,7 +17,7 @@ function openMediaViewer(e) {
 
 function displayMediaViewer(index, thumbnail, source, type, title, collection, author, description, download) {
     hideMediaViewer();
-
+    
     $('body').append(`
         <div id="media-viewer-popup" style="opacity: 0;">
             <div class="media-viewer" data-media-viewer-index="${index}" data-media-viewer-collection="${collection}" data-media-viewer-source="${source}">
@@ -33,66 +32,57 @@ function displayMediaViewer(index, thumbnail, source, type, title, collection, a
             </div>
         </div>
     `);
-
     $('#media-viewer-popup .media-viewer-title').text(title);
     $('#media-viewer-popup .media-viewer-author').text(author);
     $('#media-viewer-popup .media-viewer-description').text(description);
 
-    clearTimeout(mediaViewerTimeout);
-    clearTimeout(mediaViewerPositionTimeout);
-
-    mediaViewerTimeout = setTimeout(function () {
-        let margin = window.innerWidth > 900 ? 50 : 20;
-
-        let popup = $('#media-viewer-popup');
-        let container = popup.find('.media-viewer');
-        let mediaContainer = container.find('.media-viewer-content');
-        let media = mediaContainer.find('img');
-
-        let targetWidth = popup.innerWidth() - (margin * 2);
-        let targetHeight = popup.innerHeight() - (margin * 2);
-
-        media.width(container.innerWidth());
-
-        let step = 1000;
-        for (let i = 0; i < 5; i++) {
-            let breaker = 0;
-            while (breaker < 100 && container.outerWidth() < targetWidth && container.outerHeight() < targetHeight) {
-                media.width(media.width() + 10);
-                breaker++;
-            }
-
-            step /= 10;
-
-            if (step < 1) {
-                break;
-            }
-        }
-
-        mediaViewerPositionTimeout = setTimeout(function () {
-            container.css({
-                'top': `${(popup.innerHeight() - container.outerHeight()) / 2}px`,
-                'left': `${(popup.innerWidth() - container.outerWidth()) / 2}px`
-            });
-
-            if (type === 'video') {
-                let width = $('.media-viewer-content img').innerWidth();
-                let height = $('.media-viewer-content img').innerHeight();
-                $('.media-viewer-content').html(`
-                    <video width="${width}" height="${height}" controls autoplay>
-                        <source src="${source}" type="video/mp4">
-                        ${localization.translate('Browser_Does_Not_Support')}
-                    </video>
-                `);
-            }
-            popup.fadeTo(500, 1.0);
-        }, 200);
-    }, 200);
+    resizeMediaViewer(1, $('#media-viewer-popup'), type, source);
 }
 
 function hideMediaViewer() {
     $('div#media-viewer-popup').hide();
     $('div#media-viewer-popup').remove();
+}
+
+function resizeMediaViewer(iteration, popup, type, source) {
+    let container = popup.find('.media-viewer');
+    let mediaContainer = container.find('.media-viewer-content');
+    let media = mediaContainer.find('img');
+
+    let margin = window.innerWidth > 900 ? 50 : 20;
+    let targetWidth = popup.innerWidth() - (margin * 2);
+    let targetHeight = popup.innerHeight() - (margin * 2);
+
+    if (iteration == 1) {
+        media.width(10);
+    }
+
+    if (container.outerWidth() < targetWidth && container.outerHeight() < targetHeight) {
+        media.width(media.width() + 10);
+
+        clearTimeout(resizePopupTimeout);
+        resizePopupTimeout = setTimeout(function () {
+            resizeMediaViewer(iteration + 1, popup, type, source);
+        }, 5);
+    } else {
+        container.css({
+            'top': `${(popup.innerHeight() - container.outerHeight()) / 2}px`,
+            'left': `${(popup.innerWidth() - container.outerWidth()) / 2}px`
+        });
+
+        if (type === 'video') {
+            let width = $('.media-viewer-content img').innerWidth();
+            let height = $('.media-viewer-content img').innerHeight();
+            $('.media-viewer-content').html(`
+                <video width="${width}" height="${height}" controls autoplay>
+                    <source src="${source}" type="video/mp4">
+                    ${localization.translate('Browser_Does_Not_Support')}
+                </video>
+            `);
+        }
+
+        popup.fadeTo(500, 1.0);
+    }
 }
 
 function download() {

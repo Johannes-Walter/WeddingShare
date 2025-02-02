@@ -6,7 +6,7 @@
 @inject WeddingShare.Helpers.IGalleryHelper _gallery
 @inject WeddingShare.Helpers.IUrlHelper _url
 
-@if (!_gallery.GetConfig(Model?.GalleryName, "Disable_QR_Code", false))
+@if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Enable_QR_Code", true))
 {
     <div class="row mb-4">
         <div class="col-12 text-center">
@@ -29,7 +29,7 @@
 
 <div class="row px-4 mb-4 presentation-hidden">
     <div class="col-12 px-5">
-        @if (!_gallery.GetConfig(Model?.GalleryName, "Disable_QR_Code", false))
+        @if (_gallery.GetConfig(Model?.GalleryName, "Gallery:Enable_QR_Code", true))
         {
             <div class="btn-group w-100 mb-2">
                 <button class="btnSaveQRCode btn btn-primary btn-sm" type="button" data-gallery-name="@Model?.GalleryName">

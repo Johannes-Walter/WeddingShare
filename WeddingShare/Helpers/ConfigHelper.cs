@@ -1,4 +1,5 @@
 ﻿using WeddingShare.Helpers.Migrators;
+using WeddingShare.Models.Migrator;
 
 namespace WeddingShare.Helpers
 {
@@ -35,14 +36,14 @@ namespace WeddingShare.Helpers
             {
                 foreach (var envKey in KeyHelper.GetAlternateVersions(key))
                 { 
-                    if (!this.IsProtectedVariable(envKey))
+                    if (!this.IsProtectedVariable(envKey.Key))
                     {
-                        var keyName = string.Join('_', envKey.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)).Trim('_').ToUpper();
+                        var keyName = string.Join('_', envKey.Key.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Skip(1)).Trim('_').ToUpper();
 
                         var value = _environment.GetEnvironmentVariable(keyName);
                         if (!string.IsNullOrWhiteSpace(value))
                         {
-                            return value;
+                            return envKey.MigrationAction != null ? envKey.MigrationAction(value) : value;
                         }
                     }
                 }
@@ -77,24 +78,16 @@ namespace WeddingShare.Helpers
         {
             try
             {
-                var alertnateKeys = GetAlternateKeys(key);
-
-                foreach (var alertnateKey in alertnateKeys)
-                { 
-                    var value = this.GetEnvironmentVariable(alertnateKey);
-                    if (!string.IsNullOrWhiteSpace(value))
-                    {
-                        return value;
-                    }
+                var value = this.GetEnvironmentVariable(key);
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    return value;
                 }
 
-                foreach (var alertnateKey in alertnateKeys)
+                value = this.GetConfigValue(key);
+                if (!string.IsNullOrWhiteSpace(value))
                 {
-                    var value = this.GetConfigValue(alertnateKey);
-                    if (!string.IsNullOrWhiteSpace(value))
-                    {
-                        return value;
-                    }
+                    return value;
                 }
             }
             catch (Exception ex)
@@ -221,22 +214,26 @@ namespace WeddingShare.Helpers
             }
         }
 
-        private List<string> GetAlternateKeys(string key)
+        private List<KeyMigrator> GetAlternateKeys(string key)
         {
-            var keys = new List<string>();
+            var keys = new List<KeyMigrator>();
 
             try
             {
                 key = key.Trim();
-                keys.Add(key);
+                keys.Add(new KeyMigrator(key));
 
-                if (string.Equals(key, "Settings:Identity_Check:Enabled", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(key, "Settings:Gallery:Enable_QR_Code", StringComparison.OrdinalIgnoreCase))
+                { 
+                    keys.Add(new KeyMigrator("Settings:Disable_QR_Code", (v) => { return (bool.Parse(v) == false).ToString(); }));
+                }
+                else if (string.Equals(key, "Settings:Identity_Check:Enabled", StringComparison.OrdinalIgnoreCase))
                 {
-                    keys.Add("Settings:Show_Identity_Request");
+                    keys.Add(new KeyMigrator("Settings:Show_Identity_Request"));
                 }
                 else if (string.Equals(key, "Settings:Show_Identity_Request", StringComparison.OrdinalIgnoreCase))
                 {
-                    keys.Add("Settings:Identity_Check:Enabled");
+                    keys.Add(new KeyMigrator("Settings:Identity_Check:Enabled", (v) => { return (bool.Parse(v) == false).ToString(); }));
                 }
             }
             catch { }
