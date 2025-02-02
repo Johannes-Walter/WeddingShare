@@ -4,7 +4,9 @@
         const triggerSelector = event => {
             const identityReqiured = $('#frmFileUpload').attr('data-identity-required') == 'true';
             if (identityReqiured) {
-                displayIdentityCheck(true);
+                displayIdentityCheck(true, function () {
+                    triggerSelector(event);
+                });
                 return;
             }
 
@@ -82,7 +84,10 @@
         const imageUpload = async dataRefs => {
             const identityReqiured = $('#frmFileUpload').attr('data-identity-required') == 'true';
             if (identityReqiured) {
-                displayIdentityCheck(true);
+                console.log(dataRefs);
+                displayIdentityCheck(true, function () {
+                    dataRefs.input.click();
+                });
                 return;
             }
 

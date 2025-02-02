@@ -70,7 +70,7 @@ function displayMessage(title, message, errors) {
     $('#alert-message-modal').modal('show');
 }
 
-function displayIdentityCheck(required) {
+function displayIdentityCheck(required, callbackFn) {
     let buttons = [{
         Text: localization.translate('Identity_Check_Tell_Us'),
         Class: 'btn-success',
@@ -86,7 +86,12 @@ function displayIdentityCheck(required) {
                     })
                         .done(data => {
                             $('#frmFileUpload').attr('data-identity-required', 'false');
-                            window.location.reload();
+
+                            if (callbackFn !== undefined && callbackFn !== null) {
+                                callbackFn();
+                            } else {
+                                window.location.reload();
+                            }
                         })
                         .fail((xhr, error) => {
                             displayMessage(localization.translate('Identity_Check'), localization.translate('Identity_Check_Set_Failed'), [error]);
